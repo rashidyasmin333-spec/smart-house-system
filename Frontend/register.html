@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | Smart Housing System</title>
+
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+}
+
+
+nav{
+    background:#003366;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 70px;
+}
+
+nav h2{
+    font-size:28px;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+}
+
+nav ul li{
+    margin-left:25px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+nav ul li a:hover{
+    color:orange;
+}
+
+
+section{
+    width:100%;
+    min-height:90vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+section h1{
+    color:#003366;
+    margin-bottom:10px;
+}
+
+section p{
+    color:#555;
+    margin-bottom:20px;
+}
+
+form{
+    width:420px;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+}
+
+label{
+    display:block;
+    margin-top:12px;
+    margin-bottom:5px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    border:none;
+    background:#003366;
+    color:white;
+    font-size:17px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0055aa;
+}
+
+form p{
+    margin-top:20px;
+    text-align:center;
+}
+
+form p a{
+    text-decoration:none;
+    color:#003366;
+    font-weight:bold;
+}
+
+form p a:hover{
+    color:orange;
+}
+    </style>
+</head>
+
+<script> 
+
+document.getElementById("registerForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let fullname = document.getElementById("fullname").value;
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let role = document.getElementById("role").value;
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(role === ""){
+        alert("Please select role");
+        return;
+    }
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    alert("Registration Successful!");
+
+
+    window.location.href = "login.html";
+
+});
+
+</script>
+<body>
+
+
+    <nav>
+
+        <h2>Smart Housing</h2>
+
+        <ul>
+
+            <li><a href="home.html">Home</a></li>
+
+            <li><a href="login.html">Login</a></li>
+
+            <li><a href="register.html">Register</a></li>
+
+        </ul>
+
+    </nav>
+
+
+
+    <section>
+
+        <div>
+
+            <h1>Create Your Account</h1>
+
+            <p>
+
+                Register to access Smart Housing System.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <form id="registerForm">
+
+                <label>Full Name</label>
+
+                <input
+                type="text"
+                id="fullname"
+                placeholder="Enter Full Name"
+                required>
+
+                <label>Username</label>
+
+                <input
+                type="text"
+                id="username"
+                placeholder="Enter Username"
+                required>
+
+                <label>Email Address</label>
+
+                <input
+                type="email"
+                id="email"
+                placeholder="Enter Email"
+                required>
+
+                <label>Phone Number</label>
+
+                <input
+                type="tel"
+                id="phone"
+                placeholder="Enter Phone Number"
+                required>
+
+                <label>Select Role</label>
+
+                <select id="role" required>
+
+                    <option value="">Choose Role</option>
+
+                    <option value="tenant">Tenant</option>
+
+                    <option value="landlord">Landlord</option>
+
+                </select>
+
+                <label>Password</label>
+
+                <input
+                type="password"
+                id="password"
+                placeholder="Enter Password"
+                required>
+
+                <label>Confirm Password</label>
+
+                <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+                required>
+
+                <button type="submit">
+
+                    Register
+
+                </button>
+
+            </form>
+
+            <p>
+
+                Already have an account?
+
+                <a href="login.html">
+
+                    Login
+
+                </a>
+
+            </p>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>
