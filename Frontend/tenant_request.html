@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tenant Requests</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f5f7fa;
+}
+
+nav{
+    background:#003366;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 70px;
+}
+
+nav h2{
+    font-size:28px;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+}
+
+nav ul li{
+    margin-left:25px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.header{
+    text-align:center;
+    padding:40px;
+}
+
+.header h1{
+    color:#003366;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+    padding:20px 70px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    padding:15px;
+}
+
+.card h3{
+    color:#003366;
+    margin-bottom:10px;
+}
+
+.card p{
+    margin:6px 0;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    color:white;
+    margin-top:10px;
+}
+
+.approve{
+    background:green;
+}
+
+.reject{
+    background:red;
+}
+
+.status{
+    background:#003366;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<h2>Smart Housing</h2>
+
+<ul>
+<li><a href="landlord-dashboard.html">Dashboard</a></li>
+<li><a href="login.html">Logout</a></li>
+</ul>
+
+</nav>
+
+<div class="header">
+
+<h1>Tenant Requests</h1>
+
+<p>Manage who wants your properties</p>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Modern Apartment</h3>
+
+<p><strong>Tenant:</strong> John Doe</p>
+<p><strong>Email:</strong> johndoe@gmail.com</p>
+<p><strong>Status:</strong> Pending</p>
+
+<button class="approve" onclick="approve()">Approve</button>
+<button class="reject" onclick="reject()">Reject</button>
+
+</div>
+
+<div class="card">
+
+<h3>Family House</h3>
+
+<p><strong>Tenant:</strong> Mary James</p>
+<p><strong>Email:</strong> mary@gmail.com</p>
+<p><strong>Status:</strong> Pending</p>
+
+<button class="approve" onclick="approve()">Approve</button>
+<button class="reject" onclick="reject()">Reject</button>
+
+</div>
+
+</div>
+
+<script>
+
+function approve(){
+    alert("Request Approved");
+}
+
+function reject(){
+    alert("Request Rejected");
+}
+
+</script>
+
+</body>
+</html>

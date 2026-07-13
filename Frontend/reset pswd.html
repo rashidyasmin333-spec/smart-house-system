@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Reset Password</title>
 
 <style>
@@ -12,11 +13,11 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
 }
 
 body{
-    background:#f4f7fc;
+    background:#f5f7fa;
 }
 
 nav{
@@ -51,21 +52,27 @@ nav ul li a{
     display:flex;
     justify-content:center;
     align-items:center;
-    height:85vh;
+    height:80vh;
 }
 
 .box{
-    width:400px;
+    width:380px;
     background:white;
     padding:30px;
     border-radius:10px;
-    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 .box h2{
     text-align:center;
     color:#003366;
-    margin-bottom:20px;
+    margin-bottom:10px;
+}
+
+.info{
+    text-align:center;
+    color:green;
+    margin-bottom:10px;
 }
 
 input{
@@ -82,24 +89,12 @@ button{
     background:#003366;
     color:white;
     border:none;
-    font-size:16px;
     border-radius:5px;
     cursor:pointer;
 }
 
 button:hover{
     background:#0055aa;
-}
-
-p{
-    text-align:center;
-    margin-top:15px;
-}
-
-a{
-    color:#003366;
-    text-decoration:none;
-    font-weight:bold;
 }
 
 </style>
@@ -126,19 +121,17 @@ a{
 
 <h2>Reset Password</h2>
 
+<p class="info" id="info"></p>
+
 <form id="resetForm">
 
-<input type="password" id="pass1" placeholder="New Password" required>
+<input type="password" id="password1" placeholder="New Password" required>
 
-<input type="password" id="pass2" placeholder="Confirm Password" required>
+<input type="password" id="password2" placeholder="Confirm Password" required>
 
-<button type="submit">Save Password</button>
+<button type="submit">Reset Password</button>
 
 </form>
-
-<p>
-Back to <a href="login.html">Login</a>
-</p>
 
 </div>
 
@@ -146,24 +139,24 @@ Back to <a href="login.html">Login</a>
 
 <script>
 
+let email = localStorage.getItem("resetEmail");
+
+document.getElementById("info").innerText =
+"Resetting password for: " + email;
+
 document.getElementById("resetForm").addEventListener("submit", function(e){
 
     e.preventDefault();
 
-    let pass1 = document.getElementById("pass1").value;
-    let pass2 = document.getElementById("pass2").value;
+    let p1 = document.getElementById("password1").value;
+    let p2 = document.getElementById("password2").value;
 
-    if(pass1 === "" || pass2 === ""){
-        alert("Please fill all fields");
+    if(p1 !== p2){
+        alert("Passwords do not match");
         return;
     }
 
-    if(pass1 !== pass2){
-        alert("Passwords do not match!");
-        return;
-    }
-
-    alert("Password changed successfully!");
+    alert("Password reset successfully!");
 
     window.location.href = "login.html";
 

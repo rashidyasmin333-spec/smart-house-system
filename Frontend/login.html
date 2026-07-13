@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Smart Housing</title>
+
+<title>Login - Smart Housing System</title>
+
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -13,196 +18,724 @@
     font-family:Arial, sans-serif;
 }
 
+
 body{
-    background:#f4f7fc;
+
+    background:#f4f6f8;
+
 }
 
-nav{
-    background:#003366;
+
+/* Header */
+
+header{
+
+    background:#1e3a8a;
     color:white;
+
+    padding:20px 50px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:15px 60px;
+
 }
 
-nav h2{
+
+header h1{
+
     font-size:28px;
+
 }
 
-nav ul{
-    display:flex;
-    list-style:none;
-}
 
-nav ul li{
-    margin-left:25px;
-}
 
-nav ul li a{
+nav a{
+
     color:white;
+
     text-decoration:none;
-    font-weight:bold;
+
+    margin-left:20px;
+
 }
+
+
+
+/* Login Box */
 
 .container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:85vh;
-}
 
-.login-box{
     width:400px;
+
     background:white;
-    padding:35px;
+
+    margin:60px auto;
+
+    padding:30px;
+
     border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,.2);
+
+    box-shadow:0 5px 15px #ccc;
+
 }
 
-.login-box h2{
+
+
+.container h2{
+
     text-align:center;
-    color:#003366;
-    margin-bottom:20px;
+
+    color:#1e3a8a;
+
+    margin-bottom:25px;
+
 }
 
-.login-box input,
-.login-box select{
+
+
+label{
+
+    display:block;
+
+    margin-top:15px;
+
+    font-weight:bold;
+
+}
+
+
+
+input, select{
+
     width:100%;
+
     padding:12px;
-    margin:10px 0;
+
+    margin-top:5px;
+
     border:1px solid #ccc;
+
     border-radius:5px;
+
 }
 
-.login-box button{
+
+
+button{
+
     width:100%;
+
+    margin-top:25px;
+
     padding:12px;
-    background:#003366;
+
+    background:#1e3a8a;
+
     color:white;
+
     border:none;
+
     border-radius:5px;
+
     cursor:pointer;
+
     font-size:16px;
+
 }
 
-.login-box button:hover{
-    background:#0055aa;
+
+
+button:hover{
+
+    background:#162d6b;
+
 }
 
-.links{
+
+
+.register{
+
     text-align:center;
+
     margin-top:20px;
+
 }
 
-.links a{
-    text-decoration:none;
-    color:#003366;
+
+.register a{
+
+    color:#1e3a8a;
+
 }
 
-.links p{
-    margin:8px 0;
+
+
+footer{
+
+    background:#222;
+
+    color:white;
+
+    text-align:center;
+
+    padding:15px;
+
+    margin-top:50px;
+
 }
+
+
 </style>
+
 
 </head>
 
+
+
 <body>
+
+
+<header>
+
+
+<h1>
+Smart Housing System
+</h1>
+
 
 <nav>
 
-<h2>Smart Housing</h2>
+<!-- <a href="index.html">
+Home
+</a> -->
 
-<ul>
 
-<li><a href="home.html">Home</a></li>
+<!-- <a href="register.html">
+Register
+</a> -->
 
-<li><a href="register.html">Register</a></li>
-
-</ul>
 
 </nav>
 
+
+</header>
+
+
+
+
+
 <div class="container">
 
-<div class="login-box">
 
-<h2>Login</h2>
+<h2>
+Login
+</h2>
 
-<form id="loginForm">
 
-<input type="text" placeholder="Username" required>
 
-<input type="password" placeholder="Password" required>
+<form onsubmit="loginUser(event)">
+
+
+
+<label>
+Email Address
+</label>
+
+
+<input type="email" id="email" required>
+
+
+
+
+<label>
+Password
+</label>
+
+
+<input type="password" id="password" required>
+
+
+
+
+
+<label>
+Login As
+</label>
+
 
 <select id="role" required>
 
-<option value="">Select Role</option>
 
-<option value="tenant">Tenant</option>
+<option value="">
+Select Role
+</option>
 
-<option value="landlord">Landlord</option>
 
-<option value="admin">Administrator</option>
+<option value="tenant">
+Tenant
+</option>
+
+
+<option value="landlord">
+Landlord
+</option>
+
+
+<option value="admin">
+Admin
+</option>
+
 
 </select>
 
-<button type="submit">Login</button>
+
+
+
+
+<button type="submit">
+
+Login
+
+</button>
+
+
 
 </form>
 
-<div class="links">
+
+
+
+<div class="register">
 
 <p>
-<a href="forgot-password.html">Forgot Password?</a>
+Don't have account?
+<a href="register.html">
+Register
+</a>
 </p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<footer>
 
 <p>
-Don't have an account?
-<a href="register.html">Register</a>
+© 2026 Smart Housing System
+</p>
+
+</footer>
+
+
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Smart Housing System</title>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+
+body{
+
+    background:#f4f6f8;
+
+}
+
+
+
+header{
+
+    background:#1e3a8a;
+    color:white;
+
+    padding:20px 50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+
+header h1{
+
+    font-size:28px;
+
+}
+
+
+
+nav a{
+
+    color:white;
+
+    text-decoration:none;
+
+    margin-left:20px;
+
+}
+
+
+
+
+.container{
+
+    width:400px;
+
+    background:white;
+
+    margin:60px auto;
+
+    padding:30px;
+
+    border-radius:10px;
+
+    box-shadow:0 5px 15px #ccc;
+
+}
+
+
+
+.container h2{
+
+    text-align:center;
+
+    color:#1e3a8a;
+
+    margin-bottom:25px;
+
+}
+
+
+
+label{
+
+    display:block;
+
+    margin-top:15px;
+
+    font-weight:bold;
+
+}
+
+
+
+input, select{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:5px;
+
+    border:1px solid #ccc;
+
+    border-radius:5px;
+
+}
+
+
+
+button{
+
+    width:100%;
+
+    margin-top:25px;
+
+    padding:12px;
+
+    background:#1e3a8a;
+
+    color:white;
+
+    border:none;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+
+
+button:hover{
+
+    background:#162d6b;
+
+}
+
+
+
+.register{
+
+    text-align:center;
+
+    margin-top:20px;
+
+}
+
+
+.register a{
+
+    color:#1e3a8a;
+
+}
+
+
+
+footer{
+
+    background:#222;
+
+    color:white;
+
+    text-align:center;
+
+    padding:15px;
+
+    margin-top:50px;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+
+<h1>
+Smart Housing System
+</h1>
+
+
+<nav>
+
+<a href="index.html">
+Home
+</a>
+
+
+<a href="register.html">
+Register
+</a>
+
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<div class="container">
+
+
+<h2>
+Login
+</h2>
+
+
+
+<form onsubmit="loginUser(event)">
+
+
+
+<label>
+Email Address
+</label>
+
+
+<input type="email" id="email" required>
+
+
+
+
+<label>
+Password
+</label>
+
+
+<input type="password" id="password" required>
+
+
+
+
+
+<label>
+Login As
+</label>
+
+
+<select id="role" required>
+
+
+<option value="">
+Select Role
+</option>
+
+
+<option value="tenant">
+Tenant
+</option>
+
+
+<option value="landlord">
+Landlord
+</option>
+
+
+<option value="admin">
+Admin
+</option>
+
+
+</select>
+
+
+
+
+
+<button type="submit">
+
+Login
+
+</button>
+
+
+
+</form>
+
+
+
+
+<div class="register">
+
+<p>
+Don't have account?
+<a href="register.html">
+Register
+</a>
 </p>
 
 </div>
 
-</div>
+
 
 </div>
+
+
+
+
+
+<footer>
+
+<p>
+© 2026 Smart Housing System
+</p>
+
+</footer>
+
+
+
+
+
+
 
 <script>
 
-document.getElementById("loginForm").addEventListener("submit",function(e){
 
-e.preventDefault();
+function loginUser(event){
 
-let role=document.getElementById("role").value;
 
-if(role==="tenant"){
+    event.preventDefault();
 
-window.location.href="tenant/dashboard.html";
+
+
+    let role = document.getElementById("role").value;
+
+
+
+    if(role === "tenant"){
+
+
+       window.location.href = "tenant.html";
+
+
+    }
+
+
+    else if(role === "landlord"){
+
+
+        window.location.href = "Landload_dashboard.html";
+
+
+    }
+
+
+    else if(role === "admin"){
+
+
+        window.location.href = "admin.html";
+
+
+    }
+
+
+    else{
+
+
+        alert("Please select your role");
+
+
+    }
+
+
 
 }
 
-else if(role==="landlord"){
 
-window.location.href="landlord/dashboard.html";
-
-}
-
-else if(role==="admin"){
-
-window.location.href="admin/dashboard.html";
-
-}
-
-else{
-
-alert("Please select your role.");
-
-}
-
-});
 
 </script>
 
+
+
+
 </body>
+
 </html>

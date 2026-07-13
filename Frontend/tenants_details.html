@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenant Details</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+}
+
+nav{
+    background:#003366;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 70px;
+}
+
+nav h2{
+    font-size:28px;
+}
+
+.back-btn{
+    background:white;
+    color:#003366;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.container{
+    width:95%;
+    margin:40px auto;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    overflow:hidden;
+}
+
+h1{
+    background:#003366;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#003366;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tbody tr:nth-child(even){
+    background:#f8f8f8;
+}
+
+tbody tr:hover{
+    background:#eaf2ff;
+}
+
+button{
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    color:white;
+    cursor:pointer;
+    margin:2px;
+}
+
+.edit{
+    background:orange;
+}
+
+.delete{
+    background:red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<h2>Smart Housing Admin</h2>
+
+<a href="admin.html" class="back-btn">← Back</a>
+
+</nav>
+
+<div class="container">
+
+<h1>Tenant Details</h1>
+
+<table id="tenantTable">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+<th>Contact</th>
+<th>Location</th>
+<th>House Selected</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>John Doe</td>
+<td>+255 712 345 678</td>
+<td>Dar es Salaam</td>
+<td>mbezi</td>
+<td>Pending</td>
+
+<td>
+
+<button class="edit" onclick="editTenant(this)">Edit</button>
+
+<button class="delete" onclick="deleteTenant(this)">Delete</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>Mary James</td>
+<td>+255 754 987 654</td>
+<td>Zanzibar</td>
+<td>bububu</td>
+<td>Approved</td>
+
+<td>
+
+<button class="edit" onclick="editTenant(this)">Edit</button>
+
+<button class="delete" onclick="deleteTenant(this)">Delete</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>David Michael</td>
+<td>+255 768 123 456</td>
+<td>Arusha</td>
+<td>mpisheakae</td>
+<td>Completed</td>
+
+<td>
+
+<button class="edit" onclick="editTenant(this)">Edit</button>
+
+<button class="delete" onclick="deleteTenant(this)">Delete</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+function editTenant(btn){
+
+let row = btn.parentElement.parentElement;
+
+let name = prompt("Enter new tenant name:", row.cells[0].innerText);
+
+if(name != null && name != ""){
+
+row.cells[0].innerText = name;
+
+}
+
+}
+
+function deleteTenant(btn){
+
+let row = btn.parentElement.parentElement;
+
+let tenant = row.cells[0].innerText;
+
+if(confirm("Delete " + tenant + " ?")){
+
+row.remove();
+
+alert("Tenant deleted successfully.");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

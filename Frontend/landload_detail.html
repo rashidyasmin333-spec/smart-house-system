@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landlord Details</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+}
+
+nav{
+    background:#003366;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 70px;
+}
+
+nav h2{
+    font-size:28px;
+}
+
+.back-btn{
+    background:white;
+    color:#003366;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.container{
+    width:95%;
+    margin:40px auto;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.15);
+    overflow:hidden;
+}
+
+.header{
+    background:#003366;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.header h1{
+    font-size:30px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#003366;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tbody tr:nth-child(even){
+    background:#f8f9fa;
+}
+
+tbody tr:hover{
+    background:#e8f0ff;
+}
+
+button{
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    color:white;
+    cursor:pointer;
+    margin:2px;
+}
+
+.edit{
+    background:orange;
+}
+
+.delete{
+    background:red;
+}
+
+.add{
+    background:#003366;
+    margin:20px;
+}
+
+.add:hover{
+    background:#0055aa;
+}
+
+.edit:hover{
+    background:#cc8400;
+}
+
+.delete:hover{
+    background:#cc0000;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<h2>Smart Housing Admin</h2>
+
+<a href="admin.html" class="back-btn">Back</a>
+
+</nav>
+
+<div class="container">
+
+<div class="header">
+<h1>Landlord Details</h1>
+<p>Manage all landlords in the system</p>
+</div>
+
+<button class="add" onclick="addLandlord()">Add Landlord</button>
+
+<table id="landlordTable">
+
+<thead>
+
+<tr>
+
+<th>No.</th>
+<th>Landlord Name</th>
+<th>Phone Number</th>
+<th>Location</th>
+<th>Houses Posted</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>1</td>
+<td>Mary James</td>
+<td>+255 754 987 654</td>
+<td>Zanzibar</td>
+<td>5</td>
+
+<td>
+<button class="edit" onclick="editLandlord(this)">Edit</button>
+<button class="delete" onclick="deleteLandlord(this)">Delete</button>
+</td>
+
+</tr>
+
+<tr>
+<td>2</td>
+<td>Hamisi Ali</td>
+<td>+255 768 222 111</td>
+<td>Dar es Salaam</td>
+<td>3</td>
+
+<td>
+<button class="edit" onclick="editLandlord(this)">Edit</button>
+<button class="delete" onclick="deleteLandlord(this)">Delete</button>
+</td>
+
+</tr>
+
+<tr>
+<td>3</td>
+<td>Amina Suleiman</td>
+<td>+255 713 456 789</td>
+<td>Arusha</td>
+<td>7</td>
+
+<td>
+<button class="edit" onclick="editLandlord(this)">Edit</button>
+<button class="delete" onclick="deleteLandlord(this)">Delete</button>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+function editLandlord(btn){
+
+let row = btn.parentElement.parentElement;
+
+let name = prompt("Edit landlord name:",row.cells[1].innerText);
+
+if(name!=null && name!=""){
+row.cells[1].innerText=name;
+}
+
+}
+
+function deleteLandlord(btn){
+
+let row = btn.parentElement.parentElement;
+
+if(confirm("Delete this landlord?")){
+
+row.remove();
+
+updateNumbers();
+
+}
+
+}
+
+function addLandlord(){
+
+let name=prompt("Enter landlord name");
+
+if(name==null || name=="") return;
+
+let phone=prompt("Enter phone number");
+
+let location=prompt("Enter location");
+
+let houses=prompt("Number of houses posted");
+
+let table=document.getElementById("landlordTable").getElementsByTagName("tbody")[0];
+
+let row=table.insertRow();
+
+row.innerHTML=`
+
+<td></td>
+<td>${name}</td>
+<td>${phone}</td>
+<td>${location}</td>
+<td>${houses}</td>
+
+<td>
+
+<button class="edit" onclick="editLandlord(this)">Edit</button>
+
+<button class="delete" onclick="deleteLandlord(this)">Delete</button>
+
+</td>
+
+`;
+
+updateNumbers();
+
+}
+
+function updateNumbers(){
+
+let rows=document.querySelectorAll("#landlordTable tbody tr");
+
+rows.forEach(function(row,index){
+
+row.cells[0].innerText=index+1;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
