@@ -1,4 +1,4 @@
-import api from './api.js';
+import api from './api.js?v=2';
 
 // --- Auth Utilities ---
 function getCurrentUser() {
@@ -110,11 +110,9 @@ function initPropertiesPage() {
             }
             
             propertyList.innerHTML = availableProperties.map(p => {
-                const imgTag = p.imageUrl 
-                    ? `<img src="${p.imageUrl}" alt="${p.title}" class="w-full h-48 object-cover">`
-                    : `<div class="h-48 bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
-                        <svg class="w-16 h-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                       </div>`;
+                const defaultImages = ['home1.jpg', 'home2.jpg', 'image3.jpg'];
+                const displayImage = p.imageUrl || defaultImages[p.propertyId % defaultImages.length];
+                const imgTag = `<img src="${displayImage}" alt="${p.title}" class="w-full h-48 object-cover">`;
 
                 return `
                 <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col">
@@ -124,7 +122,7 @@ function initPropertiesPage() {
                         <p class="text-gray-600 mb-4 flex-grow text-sm line-clamp-3">${p.description}</p>
                         ${p.contactInfo ? `<p class="text-xs text-gray-500 mb-4"><strong>Contact Landlord:</strong> ${p.contactInfo}</p>` : ''}
                         <div class="flex justify-between items-center mb-6 pt-4 border-t border-gray-100">
-                            <span class="text-2xl font-extrabold text-brand">$${p.price}<span class="text-sm font-normal text-gray-500">/mo</span></span>
+                            <span class="text-2xl font-extrabold text-brand">${p.price} TSH<span class="text-sm font-normal text-gray-500">/mo</span></span>
                             <span class="text-sm text-gray-500 flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>${p.location}</span>
                         </div>
                         <button class="w-full bg-brand text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors shadow-sm" onclick="requestRent(${p.propertyId})">Request to Rent</button>
@@ -232,13 +230,14 @@ function initDashboardPage() {
     const landlordView = document.getElementById('landlord-view');
     
     if (user.role === 'TENANT') {
-        tenantView.style.display = 'block';
-        landlordView.style.display = 'none';
+        document.getElementById('tenant-view').style.display = 'block';
         loadTenantDashboard(user.userId);
     } else if (user.role === 'LANDLORD') {
-        tenantView.style.display = 'none';
-        landlordView.style.display = 'block';
+        document.getElementById('landlord-view').style.display = 'block';
         loadLandlordDashboard(user.userId);
+    } else if (user.role === 'ADMINISTRATOR') {
+        document.getElementById('admin-view').style.display = 'block';
+        loadAdminDashboard();
     }
 }
 
@@ -256,10 +255,7 @@ async function loadTenantDashboard(tenantId) {
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900">${req.property.title}</h3>
-                        <p class="text-sm text-gray-500 flex items-center mt-1">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            ${new Date(req.createdAt).toLocaleDateString()}
-                        </p>
+
                     </div>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         req.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
@@ -405,7 +401,7 @@ async function loadLandlordRequests(landlordId) {
                     <div class="mb-2 sm:mb-0">
                         <h4 class="text-md font-bold text-gray-900">${req.property.title}</h4>
                         <p class="text-sm text-gray-600 mt-1"><span class="font-medium text-gray-800">${req.tenant.name || req.tenant.firstName + ' ' + req.tenant.lastName}</span> &bull; ${req.tenant.email}</p>
-                        <p class="text-xs text-gray-500 mt-1">Requested on: ${new Date(req.createdAt).toLocaleDateString()}</p>
+                        <p class="text-xs text-gray-500 mt-1">Requested</p>
                     </div>
                     <div class="flex items-center space-x-3">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -438,5 +434,204 @@ window.updateReqStatus = async (requestId, status) => {
         loadLandlordRequests(user.userId);
     } catch (error) {
         showNotification('Failed to update request', 'error');
+    }
+};
+
+// --- Administrator Dashboard Logic ---
+async function loadAdminDashboard() {
+    try {
+        const [users, properties] = await Promise.all([
+            api.getAllUsers(),
+            api.getProperties()
+        ]);
+        window.currentAdminUsers = users;
+        window.currentAdminProperties = properties;
+
+        const usersList = document.getElementById('admin-users-list');
+        if (users.length === 0) {
+            usersList.innerHTML = '<tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">No users found.</td></tr>';
+        } else {
+            usersList.innerHTML = users.map(u => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${u.name || u.firstName + ' ' + u.lastName}</div>
+                        <div class="text-sm text-gray-500">${u.email}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${u.role}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-indigo-600 hover:text-indigo-900 mr-3" onclick="openAdminUserModal(${u.userId})">Edit</button>
+                        ${u.role !== 'ADMINISTRATOR' ? `<button class="text-red-600 hover:text-red-900" onclick="adminDeleteUser(${u.userId})">Delete</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        const propsList = document.getElementById('admin-properties-list');
+        if (properties.length === 0) {
+            propsList.innerHTML = '<tr><td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">No properties found.</td></tr>';
+        } else {
+            propsList.innerHTML = properties.map(p => `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${p.title}</div>
+                        <div class="text-sm text-gray-500">${p.price} TSH/mo</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${p.status}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button class="text-indigo-600 hover:text-indigo-900 mr-3" onclick="openAdminPropertyModal(${p.propertyId})">Edit</button>
+                        <button class="text-red-600 hover:text-red-900" onclick="adminDeleteProperty(${p.propertyId})">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    } catch (err) {
+        console.error('Failed to load admin data:', err);
+        showNotification('Failed to load admin data', 'bg-red-600');
+    }
+}
+
+window.adminDeleteUser = async (userId) => {
+    if (confirm('Are you sure you want to delete this user? This will also delete all their properties and requests.')) {
+        try {
+            await api.deleteUser(userId);
+            showNotification('User deleted successfully!');
+            loadAdminDashboard();
+        } catch (err) {
+            showNotification('Failed to delete user', 'bg-red-600');
+        }
+    }
+};
+
+window.adminDeleteProperty = async (propertyId) => {
+    if (confirm('Are you sure you want to delete this property?')) {
+        try {
+            await api.deleteProperty(propertyId);
+            showNotification('Property deleted successfully!');
+            loadAdminDashboard();
+        } catch (err) {
+            showNotification('Failed to delete property', 'bg-red-600');
+        }
+    }
+};
+
+// --- Admin User Modals & Actions ---
+window.currentAdminUsers = [];
+
+window.openAdminUserModal = (userId = null) => {
+    document.getElementById('admin-user-id').value = userId || '';
+    const pwdInput = document.getElementById('admin-user-password');
+    const pwdLabel = document.getElementById('admin-user-password-label');
+
+    if (userId) {
+        const user = window.currentAdminUsers.find(u => u.userId === userId);
+        if (user) {
+            document.getElementById('admin-user-modal-title').textContent = 'Edit User';
+            document.getElementById('admin-user-name').value = user.name || (user.firstName + ' ' + user.lastName);
+            document.getElementById('admin-user-email').value = user.email;
+            document.getElementById('admin-user-phone').value = user.phone || '';
+            pwdInput.value = ''; // Don't prefill password
+            pwdInput.required = false;
+            pwdLabel.textContent = 'Password (Leave blank to keep current)';
+            document.getElementById('admin-user-role').value = user.role;
+        }
+    } else {
+        document.getElementById('admin-user-modal-title').textContent = 'Add User';
+        document.getElementById('admin-user-form').reset();
+        pwdInput.required = true;
+        pwdLabel.textContent = 'Password';
+    }
+    document.getElementById('admin-user-modal').classList.remove('hidden');
+};
+
+window.closeAdminUserModal = () => {
+    document.getElementById('admin-user-modal').classList.add('hidden');
+};
+
+window.saveAdminUser = async (e) => {
+    e.preventDefault();
+    const userId = document.getElementById('admin-user-id').value;
+    const userData = {
+        name: document.getElementById('admin-user-name').value,
+        email: document.getElementById('admin-user-email').value,
+        phone: document.getElementById('admin-user-phone').value,
+        password: document.getElementById('admin-user-password').value || undefined,
+        role: document.getElementById('admin-user-role').value
+    };
+
+    try {
+        if (userId) {
+            await api.updateUser(userId, userData);
+            showNotification('User updated successfully!');
+        } else {
+            await api.createUser(userData);
+            showNotification('User created successfully!');
+        }
+        closeAdminUserModal();
+        loadAdminDashboard();
+    } catch (err) {
+        console.error(err);
+        showNotification('Failed to save user', 'bg-red-600');
+    }
+};
+
+// --- Admin Property Modals & Actions ---
+window.currentAdminProperties = [];
+
+window.openAdminPropertyModal = (propertyId = null) => {
+    document.getElementById('admin-property-id').value = propertyId || '';
+    const ownerSelect = document.getElementById('admin-property-owner');
+    const landlords = window.currentAdminUsers.filter(u => u.role === 'LANDLORD');
+    ownerSelect.innerHTML = '<option value="" disabled selected>Select a landlord</option>' + 
+        landlords.map(l => `<option value="${l.userId}">${l.name || l.firstName + ' ' + l.lastName} (${l.email})</option>`).join('');
+
+    if (propertyId) {
+        const prop = window.currentAdminProperties.find(p => p.propertyId === propertyId);
+        if (prop) {
+            document.getElementById('admin-property-modal-title').textContent = 'Edit Property';
+            document.getElementById('admin-property-title').value = prop.title;
+            document.getElementById('admin-property-desc').value = prop.description;
+            document.getElementById('admin-property-loc').value = prop.location;
+            document.getElementById('admin-property-price').value = prop.price;
+            document.getElementById('admin-property-contact').value = prop.contactInfo || '';
+            document.getElementById('admin-property-status').value = prop.status;
+            ownerSelect.value = prop.owner?.userId || '';
+        }
+    } else {
+        document.getElementById('admin-property-modal-title').textContent = 'Add Property';
+        document.getElementById('admin-property-form').reset();
+    }
+    document.getElementById('admin-property-modal').classList.remove('hidden');
+};
+
+window.closeAdminPropertyModal = () => {
+    document.getElementById('admin-property-modal').classList.add('hidden');
+};
+
+window.saveAdminProperty = async (e) => {
+    e.preventDefault();
+    const propertyId = document.getElementById('admin-property-id').value;
+    const propertyData = {
+        title: document.getElementById('admin-property-title').value,
+        description: document.getElementById('admin-property-desc').value,
+        location: document.getElementById('admin-property-loc').value,
+        price: parseFloat(document.getElementById('admin-property-price').value),
+        contactInfo: document.getElementById('admin-property-contact').value,
+        status: document.getElementById('admin-property-status').value,
+        owner: { userId: parseInt(document.getElementById('admin-property-owner').value) }
+    };
+
+    try {
+        if (propertyId) {
+            await api.updateProperty(propertyId, propertyData);
+            showNotification('Property updated successfully!');
+        } else {
+            await api.createProperty(propertyData);
+            showNotification('Property created successfully!');
+        }
+        closeAdminPropertyModal();
+        loadAdminDashboard();
+    } catch (err) {
+        console.error(err);
+        showNotification('Failed to save property', 'bg-red-600');
     }
 };

@@ -26,6 +26,36 @@ const api = {
         }
         return response.json();
     },
+    async getAllUsers() {
+        const response = await fetch(`${BASE_URL}/users`);
+        if (!response.ok) throw new Error('Failed to fetch users');
+        return await response.json();
+    },
+    async createUser(userData) {
+        const response = await fetch(`${BASE_URL}/users`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+        if (!response.ok) throw new Error('Failed to create user');
+        return await response.json();
+    },
+    async updateUser(userId, userData) {
+        const response = await fetch(`${BASE_URL}/users/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+        if (!response.ok) throw new Error('Failed to update user');
+        return await response.json();
+    },
+    async deleteUser(userId) {
+        const response = await fetch(`${BASE_URL}/users/${userId}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('Failed to delete user');
+        return true;
+    },
 
     // Properties
     getProperties: async () => {
