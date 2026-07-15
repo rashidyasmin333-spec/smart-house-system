@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Housing System | Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { brand: '#3b82f6' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md border-b border-indigo-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="text-2xl font-bold text-white tracking-tight">Smart<span class="text-blue-200">Housing</span></a>
+                </div>
+                <div id="nav-right" class="flex space-x-4">
+                    <!-- Populated by app.js -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Header Section -->
+        <section class="bg-white border-b border-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">Available Properties</h1>
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto">Browse our curated list of beautiful properties available for rent right now.</p>
+            </div>
+        </section>
+
+        <!-- Properties Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div id="property-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Properties will be injected here by app.js -->
+                <div class="col-span-full text-center text-gray-500 py-10">Loading properties...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center mt-auto">
+        <p>&copy; 2026 Smart Housing System. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
